@@ -9,9 +9,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    job: {
-      type: DataTypes.STRING(100),
-    },
     // define columns...
   },{
     tableName: "profile_card",
