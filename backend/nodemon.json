@@ -1,0 +1,7 @@
+{
+  "verbose": false,
+  "ignore": ["data/mydb.json", "data/test/test.json"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
