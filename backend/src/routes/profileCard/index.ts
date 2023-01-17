@@ -49,8 +49,6 @@ router.post('/create', async (req: Request, res: Response) => {
     req.body.createTargetName
   )
 
-  console.log(result)
-
   res.send({
     created: true,
   })
@@ -81,8 +79,6 @@ router.post('/update', async (req: Request, res: Response) => {
     req.body.parentDataKey,
     req.body.itemIndex
   )
-
-  console.log(result)
 
   if (result) {
     res.send(true)
