@@ -42,7 +42,7 @@ export const getColumns = async () => {
   const career = await Career.findOne()
 
   if (!result || !career) {
-    throw new Error()
+    throw new Error('data not found')
   }
 
   const information = result.getDataValue('information')
@@ -82,7 +82,7 @@ export const fetchDetail = async (id: number) => {
   })
 
   if (!result) {
-    throw new Error()
+    throw new Error('data not found')
   }
 
   const information = result.getDataValue('information')
@@ -137,7 +137,7 @@ export const fetchDetail = async (id: number) => {
 
   const career = await Career.findOne()
   if (!career) {
-    throw new Error('')
+    throw new Error('data not found')
   }
 
   for (const key in career.getDataValue('information')) {
@@ -184,7 +184,7 @@ export const update = async (
   })
 
   if (!profile) {
-    throw new Error()
+    throw new Error('data not found')
   }
 
   if (itemIndex == undefined) {
