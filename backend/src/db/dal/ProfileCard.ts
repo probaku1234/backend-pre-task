@@ -1,5 +1,5 @@
 import { ProfileCard, Career } from '../models'
-//import { ProfileCardOutput } from '../models/ProfileCard'
+import { ProfileCardOutput } from '../models/ProfileCard'
 
 interface IColumn {
   label: string
@@ -52,6 +52,7 @@ export const getColumns = async () => {
     columnList.push({
       label: key,
       dataKey: key,
+      type: 'single',
       //parentDataKey: 'information',
     })
   }
@@ -60,6 +61,7 @@ export const getColumns = async () => {
     columnList.push({
       label: `careers-${key}`,
       dataKey: key,
+      type: 'list',
       //parentDataKey: 'careers',
     })
   }
@@ -69,6 +71,103 @@ export const getColumns = async () => {
 
 export const createNewProfile = async (name: string) => {
   return ProfileCard.create({ name, information: {} })
+}
+
+export const fetchDetail = async (id: number) => {
+  const result = await ProfileCard.findByPk(id, {
+    include: {
+      model: Career,
+      as: 'careers',
+    },
+  })
+
+  if (!result) {
+    throw new Error()
+  }
+
+  const information = result.getDataValue('information')
+  const columnList: IColumn[] = []
+
+  for (const key in information) {
+    let type
+    if (key == 'DOB') {
+      type = 'date'
+    } else if (key == 'email') {
+      type = 'email'
+    } else if (key == 'phone') {
+      type = 'phone'
+    } else {
+      type = 'text'
+    }
+
+    columnList.push({
+      label: key,
+      dataKey: key,
+      type,
+    })
+  }
+
+  if (!result.careers) {
+    result.careers = []
+  }
+  const newResult: Record<string, unknown> & ProfileCardOutput = {
+    name: result.name,
+    id: result.id,
+    information: result.information,
+    created_at: result.created_at,
+    updated_at: result.updated_at,
+    deleted_at: result.deleted_at,
+    ...result.information,
+  }
+
+  columnList.push({
+    label: 'career',
+    dataKey: 'careerList',
+    parentDataKey: 'career',
+    type: 'list',
+  })
+
+  const careerList: Record<string, unknown>[] = []
+  result.careers.forEach((career) => {
+    careerList.push({
+      ...career.information,
+    })
+  })
+  newResult['careerList'] = careerList
+
+  const career = await Career.findOne()
+  if (!career) {
+    throw new Error('')
+  }
+
+  for (const key in career.getDataValue('information')) {
+    let type
+
+    if (key == 'start_date' || key == 'end_date') {
+      type = 'date'
+    } else {
+      type = 'text'
+    }
+    columnList.push({
+      label: key,
+      dataKey: key,
+      type,
+      parentDataKey: 'careerList',
+    })
+  }
+
+  return { newResult, columnList }
+}
+
+export const deleteProfile = async (id: number) => {
+  const result = await ProfileCard.findByPk(id, {
+    include: {
+      model: Career,
+      as: 'careers',
+    },
+  })
+
+  result?.destroy()
 }
 
 const getPagination = (current: number, pageSize: number) => {

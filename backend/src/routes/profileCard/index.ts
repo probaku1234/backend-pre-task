@@ -13,11 +13,6 @@ router.get('/', async (req: Request, res: Response) => {
   const pageSize = Number(req.query.pageSize as string)
   const sort = req.query.sort as string[]
 
-  // console.log(current)
-  // console.log(columns)
-  // console.log(pageSize)
-  // console.log(sort)
-
   const result = await profileCardService.getAll(
     current - 1,
     columns,
@@ -59,6 +54,24 @@ router.post('/create', async (req: Request, res: Response) => {
   res.send({
     created: true,
   })
+})
+
+router.get('/detail', async (req: Request, res: Response) => {
+  const result = await profileCardService.fetchDetail(Number(req.query.id))
+
+  res.send({
+    profileCardDetail: {
+      value: result.newResult,
+      valueStructures: result.columnList,
+      name: result.newResult.name,
+    },
+  })
+})
+
+router.post('/delete', async (req: Request, res: Response) => {
+  await profileCardService.deleteProfile(req.body.profileCardId)
+
+  res.sendStatus(200)
 })
 
 export { router as profileCardRouter }

@@ -17,3 +17,11 @@ export const getColumns = () => {
 export const createNewProfile = (name: string) => {
   return profileCardDal.createNewProfile(name)
 }
+
+export const fetchDetail = (id: number) => {
+  return profileCardDal.fetchDetail(id)
+}
+
+export const deleteProfile = (id: number) => {
+  profileCardDal.deleteProfile(id)
+}
