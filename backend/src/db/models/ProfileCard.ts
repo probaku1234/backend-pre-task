@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { DataTypes, Model, Optional } from 'sequelize'
+import {
+  DataTypes,
+  HasManyAddAssociationMixin,
+  Model,
+  Optional,
+} from 'sequelize'
 import sequelizeConnection from '../sequelizeConnect'
 import Career from './Career'
 
@@ -30,6 +35,8 @@ class ProfileCard
   public readonly created_at!: Date
   public readonly updated_at!: Date
   public readonly deleted_at!: Date
+
+  declare addCareers: HasManyAddAssociationMixin<Career, number>
 }
 
 ProfileCard.init(
@@ -46,6 +53,14 @@ ProfileCard.init(
     information: {
       type: DataTypes.JSON,
       allowNull: false,
+      defaultValue: {
+        DOB: null,
+        email: '',
+        phone: '',
+        gender: '',
+        nickname: '',
+        address: '',
+      },
     },
   },
   {

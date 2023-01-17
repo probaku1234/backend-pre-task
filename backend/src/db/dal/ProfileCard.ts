@@ -170,6 +170,61 @@ export const deleteProfile = async (id: number) => {
   result?.destroy()
 }
 
+export const update = async (
+  id: number,
+  newValue: Record<string, unknown> = {},
+  parentDataKey?: string,
+  itemIndex?: number
+) => {
+  const profile = await ProfileCard.findByPk(id, {
+    include: {
+      model: Career,
+      as: 'careers',
+    },
+  })
+
+  if (!profile) {
+    throw new Error()
+  }
+
+  if (itemIndex == undefined) {
+    if (!newValue.DOB) {
+      newValue.DOB = null
+    }
+    profile.information = newValue
+    await profile.save()
+    return profile
+  }
+
+  if (parentDataKey && itemIndex != undefined) {
+    if (!newValue.start_date) {
+      newValue.start_date = null
+    }
+    if (!newValue.end_date) {
+      newValue.end_date = null
+    }
+
+    if (!profile.careers) {
+      profile.careers = []
+    }
+
+    if (itemIndex < profile.careers.length) {
+      profile.careers[itemIndex].information = newValue
+      await profile.careers[itemIndex].save()
+    } else {
+      const newCareer = await Career.create({
+        information: newValue,
+      })
+
+      profile.addCareers(newCareer)
+    }
+
+    await profile.save()
+
+    return profile
+  }
+}
+
 const getPagination = (current: number, pageSize: number) => {
   const limit = pageSize
   const offset = current ? current * limit : 0

@@ -25,3 +25,12 @@ export const fetchDetail = (id: number) => {
 export const deleteProfile = (id: number) => {
   profileCardDal.deleteProfile(id)
 }
+
+export const updateProfile = (
+  id: number,
+  newValue: Record<string, unknown>,
+  parentDataKey?: string,
+  itemIndex?: number
+) => {
+  return profileCardDal.update(id, newValue, parentDataKey, itemIndex)
+}

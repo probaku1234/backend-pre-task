@@ -20,6 +20,7 @@ class Career
 {
   public id!: number
   public information!: Record<string, unknown>
+  public ProfileCardID!: number
 
   public readonly created_at!: Date
   public readonly updated_at!: Date
@@ -37,9 +38,9 @@ Career.init(
       type: DataTypes.JSON,
       allowNull: false,
       defaultValue: {
-        start_date: '',
+        start_date: null,
         company_name: '',
-        end_date: '',
+        end_date: null,
         position: '',
       },
     },

@@ -74,4 +74,21 @@ router.post('/delete', async (req: Request, res: Response) => {
   res.sendStatus(200)
 })
 
+router.post('/update', async (req: Request, res: Response) => {
+  const result = await profileCardService.updateProfile(
+    req.body.profileCardId,
+    req.body.newValue,
+    req.body.parentDataKey,
+    req.body.itemIndex
+  )
+
+  console.log(result)
+
+  if (result) {
+    res.send(true)
+  } else {
+    res.send(false)
+  }
+})
+
 export { router as profileCardRouter }
