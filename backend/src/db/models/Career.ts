@@ -36,6 +36,12 @@ Career.init(
     information: {
       type: DataTypes.JSON,
       allowNull: false,
+      defaultValue: {
+        start_date: '',
+        company_name: '',
+        end_date: '',
+        position: '',
+      },
     },
   },
   {
