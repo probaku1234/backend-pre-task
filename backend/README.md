@@ -20,3 +20,4 @@ TEST_DB_NAME=test_db
 ```
 ## ERD
 
+<img width="532" alt="1" src="https://user-images.githubusercontent.com/10219906/212911672-5c86f11d-c871-4e4c-9714-ba30a11d2722.PNG">
