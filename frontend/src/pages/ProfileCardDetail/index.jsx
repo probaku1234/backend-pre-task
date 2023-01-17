@@ -15,7 +15,7 @@ import './index.scss';
 const ProfileCardDetail = (props) => {
   const { profileCardId } = props.match.params;
 
-  const [profileDetail, setProfileDetail] = useState();
+  const [profileDetail, setProfileDetail] = useState({name: 'test'});
 
   const { request } = useAxios();
   const history = useHistory();
@@ -24,7 +24,10 @@ const ProfileCardDetail = (props) => {
     // TODO: Change your api
     const response = await request({
       method: 'GET',
-      url: '/api/??',
+      url: '/api/profile-card/detail',
+      params: {
+        id: fetchTargetId
+      }
     });
     if (!response || !response.profileCardDetail) return;
 
@@ -39,7 +42,10 @@ const ProfileCardDetail = (props) => {
     // TODO: Change your api
     const response = await request({
       method: 'POST',
-      url: '/api/??',
+      url: '/api/profile-card/delete',
+      data: {
+        profileCardId
+      }
     });
     if (!response) return;
 
@@ -75,16 +81,49 @@ const ProfileCardDetail = (props) => {
     };
   }, [profileDetail]);
 
-  const onSaveValue = useCallback(async (newValue, parentDatKey, itemIndex) => {
+  const onSaveValue = useCallback(async (newValue, parentDataKey, itemIndex) => {
     // TODO: Change your api
     const response = await request({
       method: 'POST',
-      url: '/api/??',
+      url: '/api/profile-card/update',
+      data: {
+        profileCardId,
+        newValue,
+        parentDataKey,
+        itemIndex
+      }
     });
     if (!response) return;
 
     fetchProfileCardDetail(profileCardId);
   }, [profileCardId]);
+
+  const renderSingleData = () => {
+    if (Object.keys(singleDataProps).length === 0) {
+      return <></>
+    } else {
+      
+      return <>
+        <SingleData
+        {...singleDataProps}
+        onSaveValue={onSaveValue}
+      />
+      </>
+    }
+  }
+  
+  const renderListData = () => {
+    if (Object.keys(listDataProps).length === 0) {
+      return <></>
+    } else {
+      return <>
+        <ListData
+        {...listDataProps}
+        onSaveValue={onSaveValue}
+      />
+      </>
+    }
+  }
 
   return (
     <div className="profile-card-detail">
@@ -98,14 +137,8 @@ const ProfileCardDetail = (props) => {
         </Button>
       </div>
       <div className="data-section">
-        <SingleData
-          {...singleDataProps}
-          onSaveValue={onSaveValue}
-        />
-        <ListData
-          {...listDataProps}
-          onSaveValue={onSaveValue}
-        />
+        {renderSingleData()}
+        {renderListData()}
       </div>
     </div>
   );

@@ -80,7 +80,7 @@ const ProfileCardList = () => {
     // TODO: Change your api
     const response = await request({
       method: 'GET',
-      url: '/api/??',
+      url: '/api/profile-card/columns',
     });
     if (!response || !response.columns) return;
 
@@ -110,7 +110,7 @@ const ProfileCardList = () => {
     // TODO: Change your api
     const response = await request({
       method: 'POST',
-      url: '/api/??',
+      url: '/api/profile-card/create',
       data: { createTargetName }
     });
     if (!response || !response.created) return;

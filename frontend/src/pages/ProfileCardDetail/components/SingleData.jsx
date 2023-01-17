@@ -64,6 +64,7 @@ const SingleData = (props) => {
     value,
     structures,
     onSaveValue,
+    index,
   } = props;
 
   const [mode, setMode] = useState(MODE.VIEW);
@@ -90,7 +91,7 @@ const SingleData = (props) => {
         handeMode={handleMode}
         onSave={() => {
           const newValues = form.getFieldsValue();
-          onSaveValue(newValues);
+          onSaveValue(newValues, 'career', index);
         }}
         onReset={() => form.resetFields()}
       />
@@ -121,6 +122,7 @@ SingleData.propTypes = {
     label: PropTypes.string,
     dataKey: PropTypes.string,
     type: PropTypes.oneOf(['text', 'phone', 'email', 'date']),
+    index: PropTypes.number
   })),
   onSaveValue:PropTypes.func,
 };

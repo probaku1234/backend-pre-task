@@ -24,12 +24,14 @@ const ListData = (props) => {
           <h3>{label}</h3>
         </div>
         <div className="list-items">
-          {childrenValues.map(childrenValue => (
+          {childrenValues.map((childrenValue, index) => (
             <SingleData
-              key={JSON.stringify(childrenValue)}
+              key={index}
               isListItem
               value={childrenValue}
               structures={childrenStructures}
+              onSaveValue={onSaveValue}
+              index={index}
             />
           ))}
           <Button
